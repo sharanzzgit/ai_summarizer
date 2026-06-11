@@ -24,6 +24,10 @@ spring:
     level:
       org.flywaydb: DEBUG
       org.springframework.boot.autoconfigure.flyway: DEBUG
+gemini:
+  api-key: ${GEMINI_API_KEY}
+  base_url: https://generativelanguage.googleapis.com
+  model: gemini-2.5-flash-lite
 
 server:
   port: 8080

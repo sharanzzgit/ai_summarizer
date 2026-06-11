@@ -98,6 +98,10 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -107,6 +111,9 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<jvmArguments>-Duser.timezone=UTC</jvmArguments>
+					<environmentVariables>
+						<GEMINI_API_KEY>${env.GEMINI_API_KEY}</GEMINI_API_KEY>
+					</environmentVariables>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
