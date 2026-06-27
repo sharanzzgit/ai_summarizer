@@ -1,0 +1,39 @@
+{
+  "family": "ai-summarizer-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::789559957793:role/ai-summarizer-task-exec-role",
+  "containerDefinitions": [
+    {
+      "name": "ai-summarizer",
+      "image": "789559957793.dkr.ecr.ap-south-1.amazonaws.com/ai-summarizer:v1",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "SPRING_DATASOURCE_URL", "value": "jdbc:postgresql://ai-summarizer-db.c5w4ko86iazz.ap-south-1.rds.amazonaws.com:5432/summarizer" },
+        { "name": "SPRING_DATASOURCE_USERNAME", "value": "summarizer" },
+        { "name": "SPRING_DATA_REDIS_HOST", "value": "ai-summarizer-redis.rupjsi.0001.aps1.cache.amazonaws.com" },
+        { "name": "SPRING_DATA_REDIS_PORT", "value": "6379" }
+      ],
+      "secrets": [
+        { "name": "GEMINI_API_KEY", "valueFrom": "arn:aws:secretsmanager:ap-south-1:789559957793:secret:ai-summarizer/gemini-api-key-5QkRkw" },
+        { "name": "SPRING_DATASOURCE_PASSWORD", "valueFrom": "arn:aws:secretsmanager:ap-south-1:789559957793:secret:ai-summarizer/db-password-6PrE37" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/ai-summarizer",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
